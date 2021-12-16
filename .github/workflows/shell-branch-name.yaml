@@ -8,9 +8,15 @@ on:
       - 'main'
 
 jobs:
-  e2e-test:
+  branch-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Unshallow
+        run: git fetch --prune --unshallow
+        
       - name: Current branch name
         run: |
           echo $(git branch | grep \* | cut -d ' ' -f2)
