@@ -19,4 +19,4 @@ jobs:
         
       - name: Current branch name
         run: |
-          echo $(git rev-parse --abbrev-ref HEAD)
+          echo $(git branch --show-current)
