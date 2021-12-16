@@ -19,4 +19,4 @@ jobs:
         
       - name: Current branch name
         run: |
-          echo $(git branch | grep \* | cut -d ' ' -f2)
+          echo $(git rev-parse --abbrev-ref HEAD)
