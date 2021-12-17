@@ -18,5 +18,8 @@ jobs:
         run: git fetch --prune --unshallow
         
       - name: Current branch name
-        run: |
-          echo $(git branch --show-current)
+        run: echo ${GITHUB_REF##*/}
+        
+#       - name: Current branch name
+#         run: |
+#           echo $(git branch --show-current)
