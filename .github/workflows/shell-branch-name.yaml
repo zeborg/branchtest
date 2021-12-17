@@ -2,10 +2,11 @@ name: shell-branch-name
 on:
   push:
     branches:
-      - 'main'
+      - '*'
+
   pull_request:
     branches:
-      - 'main'
+      - '*'
 
 jobs:
   branch-test:
@@ -17,19 +18,12 @@ jobs:
       - name: Unshallow
         run: git fetch --prune --unshallow
         
-      - name: Running on the default branch.
-        if: ${{ github.event_name == 'push' }}
+      - name: Branch name
         run: |
-          echo Branch ${GITHUB_REF##*/}
-        # Outputs: "Running on default: main".
-      
-      - name: Running on a pull request branch.
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          echo Branch ${{ github.event.pull_request.base.ref }}
-          
-#       - name: Current branch name
-#         run: echo ${{ github.event.pull_request.base.ref }}
-#       - name: Current branch name
-#         run: |
-#           echo $(git branch --show-current)
+          if [[ ${{ github.event_name }} == "push" ]]
+          then
+            echo Branch ${GITHUB_REF##*/}
+          elif [[ ${{ github.event_name }} == "pull_request" ]]
+          then
+            echo Branch ${{ github.event.pull_request.base.ref }}
+          fi
