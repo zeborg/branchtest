@@ -20,10 +20,11 @@ jobs:
       - name: Branch name
 #         if: ${{ github.event_name == 'push' }}
         run: |
-          if [ ${{ github.event_name == 'push' }} ]
+          if [[ ${{ github.event_name }} == "push" ]]
           then
             echo Branch ${GITHUB_REF##*/}
-          else
+          elif [[ ${{ github.event_name }} == "pull_request" ]]
+          then
             echo Branch ${{ github.event.pull_request.base.ref }}
           fi
             
