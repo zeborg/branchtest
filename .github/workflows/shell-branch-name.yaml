@@ -13,12 +13,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Unshallow
-        run: git fetch --prune --unshallow
         
-      - name: Current branch name
-        run: echo On branch ${GITHUB_REF##*/}
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+        
+      - name: Running on the default branch.
+        if: steps.branch-name.outputs.is_default == 'true'
+        run: |
+          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+        # Outputs: "Running on default: main".
+      
+      - name: Running on a pull request branch.
+        if: steps.branch-name.outputs.is_default == 'false'
+        run: |
+          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
+        # Outputs: "Running on pr: feature/test".
+        
+#       - name: Current branch name
+#         run: echo On branch ${GITHUB_REF##*/}
 
 #       - name: Current branch name
 #         run: |
