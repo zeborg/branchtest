@@ -17,8 +17,19 @@ jobs:
       - name: Unshallow
         run: git fetch --prune --unshallow
         
-      - name: Current branch name
-        run: echo ${{ github.event.pull_request.base.ref }}
+      - name: Running on the default branch.
+        if: ${{ github.event.pull_request.base.ref }} == ''
+        run: |
+          echo Branch ${GITHUB_REF##*/}
+        # Outputs: "Running on default: main".
+      
+      - name: Running on a pull request branch.
+        if: ${{ github.event.pull_request.base.ref }} != ''
+        run: |
+          echo Branch ${{ github.event.pull_request.base.ref }}
+          
+#       - name: Current branch name
+#         run: echo ${{ github.event.pull_request.base.ref }}
 #       - name: Current branch name
 #         run: |
 #           echo $(git branch --show-current)
