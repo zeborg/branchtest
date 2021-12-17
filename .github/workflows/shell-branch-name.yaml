@@ -18,7 +18,7 @@ jobs:
         run: git fetch --prune --unshallow
         
       - name: Current branch name
-        run: echo ${GITHUB_REF##*/}
+        run: echo {{ github.event.pull_request.base.ref }}
 #       - name: Current branch name
 #         run: |
 #           echo $(git branch --show-current)
