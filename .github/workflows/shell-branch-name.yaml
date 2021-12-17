@@ -19,15 +19,15 @@ jobs:
         uses: tj-actions/branch-names@v5
         
       - name: Running on the default branch.
-        if: steps.branch-name.outputs.is_default == 'true'
+        if: ${{ github.event.pull_request.base.ref }} == ''
         run: |
-          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+          echo Branch ${GITHUB_REF##*/}
         # Outputs: "Running on default: main".
       
       - name: Running on a pull request branch.
-        if: steps.branch-name.outputs.is_default == 'false'
+        if: ${{ github.event.pull_request.base.ref }} != ''
         run: |
-          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
+          echo Branch ${{ github.event.pull_request.base.ref }}
         # Outputs: "Running on pr: feature/test".
         
 #       - name: Current branch name
